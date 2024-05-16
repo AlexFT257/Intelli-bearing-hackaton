@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 
 const fakedata = [
   {
@@ -40,23 +40,73 @@ const fakedata = [
   },
 ];
 
-
 const CardTable = () => {
-  
+    const [list, setList] = useState([])
 
 
-    return (
-        <div className="block w-full p-4 m-4 rounded-lg  bg-gray-800">
-{/* title */}
-            <div>
-                <h1>Rodamiento</h1>
-                <span>Tabla con todos los rodamientos</span>
-            </div>
 
-            <div></div>
+  const TableRow = ({ data }) => (
+    <tr className="odd:bg-gray-900 even:bg-gray-800 border-b border-gray-700">
+      <th
+        scope="row"
+        className="px-6 py-4 font-medium whitespace-nowrap text-white"
+      >
+        {data.name}
+      </th>
+      <td className="px-6 py-4">{data.lastState}</td>
+      <td className="px-6 py-4">{data.installDate}</td>
+      <td className="px-6 py-4">{data.lifeExpectancy}</td>
+      <td className="px-6 py-4">
+        <a
+          href="#"
+          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        >
+          Ver
+        </a>
+      </td>
+    </tr>
+  );
 
-        </div>
-    )
+  return (
+    <div className=" w-full bg-gray-800 rounded-lg flex flex-col gap-2  p-4 h-fit ">
+      <div>
+        <h1 className=" text-white text-3xl font-bold tracking-tight">
+          Rodamientos
+        </h1>
+        <span className="text-gray-400">Selecciona un rodamiento</span>
+      </div>
+
+      <div class=" overflow-x-auto rounded-lg">
+        <table class="w-full text-sm text-left h-1/2 text-gray-400">
+          <thead class="text-xs  uppercase  bg-gray-700 text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                Rodamiento
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Estado
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Fecha de instalacion
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Estimacion de vida util
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Accion
+              </th>
+            </tr>
+          </thead>
+          <tbody className="overflow-scroll">
+            {/* reemplazar por list */}
+            {fakedata.map((item) => (
+              <TableRow key={item.id} data={item} />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default CardTable;
