@@ -23,7 +23,7 @@ export default function Home() {
         </div>
       </div>
       {/* derecha /chat */}
-      <div className="flex w-2/5 bg-black h-full mx-2 my-4">
+      <div className="flex w-2/5  h-full mx-2 my-4">
         <Chat/>
       </div>
     </div>
