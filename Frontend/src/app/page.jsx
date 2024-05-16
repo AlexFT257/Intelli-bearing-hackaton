@@ -1,4 +1,7 @@
+"use client"
 import Image from "next/image";
+import { BearingRenderer } from "./components/BearingRenderer";
+
 
 export default function Home() {
   return (
@@ -7,7 +10,7 @@ export default function Home() {
       <div className="flex flex-row w-full">
         {/* arriba */}
         <div className="flex">
-
+          <BearingRenderer/>          
         </div>
         {/* abajo */}
         <div className="flex flex-row"></div>
