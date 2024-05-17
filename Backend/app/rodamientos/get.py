@@ -26,7 +26,6 @@ def desconectar(conexion, cursor):
         print(f"Error al cerrar la conexión: {e}.")
 
 def obtener_detalle_rodamiento(id_rodamiento, cantidad):
-
     conexion, cursor = conectar()
 
     if not conexion or not cursor:
@@ -45,11 +44,8 @@ def obtener_detalle_rodamiento(id_rodamiento, cantidad):
         if not ultima_lectura:
             return{"Error": "No se han encontrado lecturas para este rodamiento"}, 404
 
-        cursor.execute("SELECT TOP (?) X, Y FROM Amplitud WHERE ID_Lectura = ? ORDER BY ID_Amplitud DESC", (cantidad,ultima_lectura[0]))
+        cursor.execute("SELECT TOP (?) Amplitud, Hz FROM Amplitud WHERE ID_Lectura = ? ORDER BY ID_Amplitud DESC", (cantidad, ultima_lectura[0]))
         ultimos_valores_amplitud = cursor.fetchall()
-
-        # Formatear la fecha de fabricación
-        fecha_fabricacion = datetime.strptime(rodamiento[7], '%Y-%m-%d') if rodamiento[7] else None
 
         # Inicializar listas vacías para almacenar valores de x e y
         x_values = []
@@ -57,16 +53,18 @@ def obtener_detalle_rodamiento(id_rodamiento, cantidad):
         
         # Llenar las listas de x e y con los valores de ultimos_valores_amplitud
         for valor in ultimos_valores_amplitud:
-            x_values.append(float(valor[0]))
-            y_values.append(float(valor[1]))
-        
+            x_values.append(float(valor[1]))  # Hz como x
+            y_values.append(float(valor[0]))  # Amplitud como y
+
+        # Formatear la fecha de fabricación
+        fecha_fabricacion = datetime.strptime(rodamiento[3], '%Y-%m-%d') if rodamiento[3] else None
 
         # Formatear los resultados
         detalle_rodamiento = {
             "ID_Rodamiento": rodamiento[0],
             "last_state": rodamiento[1],
             "Nombre_Rodamiento": rodamiento[2],
-            "Fecha_Instalacion": float(rodamiento[3]),
+            "Fecha_Instalacion": fecha_fabricacion,
             "Tipo": rodamiento[4],
             "Fabricante": rodamiento[5],
             "Modelo": rodamiento[6],

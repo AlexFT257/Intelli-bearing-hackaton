@@ -1,7 +1,7 @@
 import os
 import pyodbc
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 from flask import jsonify
 import threading
@@ -61,41 +61,7 @@ def desconectar_base_datos(conexion):
     except pyodbc.Error as ex:
         print("Error al desconectar de la base de datos:", ex)
 
-def guardar_amplitudes_en_base_de_datos(amplitudes, fecha, id_rodamiento):
-    try:
-        conexion = conectar_base_datos()
-        cursor = conexion.cursor()
 
-        # Insertar en la tabla Lectura_Amplitud sin proporcionar un valor explícito para ID_Lectura
-        cursor.execute("INSERT INTO Lectura_Amplitud (ID_Rodamiento, Fecha) VALUES (?, ?)",
-                       (id_rodamiento, fecha))
-        conexion.commit()
-
-        # Obtener el ID de la lectura recién insertada
-        cursor.execute("SELECT ID_Lectura FROM Lectura_Amplitud WHERE ID_Rodamiento = ? AND Fecha = ?",
-                       (id_rodamiento, fecha))
-        row = cursor.fetchone()
-        if row:
-            id_lectura = row[0]
-        else:
-            raise ValueError("No se pudo obtener el ID de la lectura recién insertada")
-
-        # Dividir los datos de amplitud en X e Y y convertirlos a flotantes
-        datos_amplitud = amplitudes.split('\n')
-        for dato in datos_amplitud:
-            if dato:
-                x, y = dato.split(';')
-                x = float(x)
-                y = float(y)
-                cursor.execute("INSERT INTO Amplitud (ID_Lectura, X, Y) VALUES (?, ?, ?)",
-                               (id_lectura, x, y))
-
-        conexion.commit()
-        print("Datos de amplitud guardados en la base de datos.")
-    except pyodbc.Error as ex:
-        print("Error al guardar datos de amplitud en la base de datos:", ex)
-    finally:
-        desconectar_base_datos(conexion)
 
 
 def guardar_rodamiento_en_base_de_datos(rodamiento):
@@ -155,8 +121,68 @@ def generar_rodamiento_aleatorio():
         "Torque": random.uniform(0.1, 10.0),
         "Costo_de_unidad": random.uniform(50.0, 500.0)
     }
+
     return rodamiento
 
+def guardar_amplitud_en_base_de_datos(id_lectura, amplitud, hz):
+    try:
+        conexion = conectar_base_datos()
+        cursor = conexion.cursor()
+
+        # Insertar en la tabla Amplitud
+        cursor.execute("""
+            INSERT INTO Amplitud (ID_Lectura, Amplitud, Hz)
+            VALUES (?, ?, ?)
+        """, (id_lectura, amplitud, hz))
+        
+        conexion.commit()
+        print("Amplitud guardada en la base de datos.")
+    except pyodbc.Error as ex:
+        print("Error al guardar amplitud en la base de datos:", ex)
+    finally:
+        desconectar_base_datos(conexion)
+
+def generar_amplitud_aleatoria():
+    try:
+        conexion = conectar_base_datos()
+        cursor = conexion.cursor()
+
+        # Obtener la lista de rodamientos en la base de datos
+        cursor.execute("SELECT ID_Rodamiento FROM Rodamiento")
+        rodamientos = cursor.fetchall()
+
+        for rodamiento in rodamientos:
+            id_rodamiento = rodamiento[0]
+
+            # Generar datos para Lectura_Amplitud
+            fecha = datetime.now() - timedelta(days=random.randint(0, 365),
+                                                 hours=random.randint(0, 23),
+                                                 minutes=random.randint(0, 59),
+                                                 seconds=random.randint(0, 59))
+
+            # Insertar en la tabla Lectura_Amplitud
+            cursor.execute("""
+                INSERT INTO Lectura_Amplitud (ID_Rodamiento, Fecha)
+                VALUES (?, ?)
+            """, (id_rodamiento, fecha))
+            conexion.commit()
+
+            # Obtener el ID_Lectura recién insertado
+            cursor.execute("SELECT @@IDENTITY")
+            id_lectura = cursor.fetchone()[0]
+
+            # Generar datos para Amplitud (20 datos)
+            for _ in range(20):
+                amplitud = random.uniform(0.1, 10.0)
+                hz = random.uniform(1.0, 100.0)  # Rango de Hz arbitrario
+
+                guardar_amplitud_en_base_de_datos(id_lectura, amplitud, hz)
+
+        print("Datos de amplitud generados y guardados en la base de datos.")
+    except pyodbc.Error as ex:
+        print("Error:", ex)
+    finally:
+        desconectar_base_datos(conexion)
 def procesar_archivo_de_amplitudes(ruta_archivo, ID_Rodamiento):
     try:
         # Extraer la fecha del nombre del archivo

@@ -60,7 +60,14 @@ def generar_rodamiento_endpoint():
     guardar_rodamiento_en_base_de_datos(rodamiento_aleatorio)
     desconectar_base_datos(conexion)
     
-    return jsonify(rodamiento_aleatorio)
+    return rodamiento_aleatorio
+
+@app.route('/generar_amplitud_aleatoria', methods=['GET'])
+def generar_amplitud_endpoint():
+    # Llamada a la función para generar y guardar datos aleatorios
+    generar_amplitud_aleatoria()
+    
+    return "Datos de amplitud generados y guardados en la base de datos."
 
 # DELETE
 
