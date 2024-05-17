@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { testingBot } from "@/lib/chatbot";
+import { chatBotApi } from "@/lib/chatbot";
 
 const Chat = () => {
 
@@ -10,24 +10,28 @@ const Chat = () => {
   const changeColorButton = (event) => {
     let inputValue = event.target.value
     setTextValue( inputValue);
+    
     setColorButton(inputValue.length > 0);
   };
 
   const sendButton = async () => {
     let prompt = textValue;
-    
-    let respuesta = await testingBot(prompt, historial);
-
-    handleHistorial(prompt, respuesta);
-    setTextValue("");
+    if (prompt.length>0) {
+      let respuesta = await chatBotApi(prompt, historial);
+      handleHistorial(prompt, respuesta);
+      setTextValue("");
+    }
 }
 
   const enterMsg = (event) => {
-    if (event.keyCode === 13 && !event.shiftKey && textValue.length>0) {
-      sendButton();
-      //evita enters extra
-      event.preventDefault();
+    if (textValue.length>0) {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        sendButton();
+        //evita enters extra
+        event.preventDefault();
+      }
     }
+    
   };
 
   const handleHistorial = (userMsg, botMsg) => {
@@ -54,7 +58,7 @@ const Chat = () => {
         {/* chat container */}
         <div>
           {/* ia */}
-          <div className="flex items-start gap-2.5">
+          <div className="flex items-start gap-2.5 mb-2">
             <div className="flex flex-col w-full leading-1.5 p-4 text-white rounded-e-xl rounded-es-xl bg-gray-700">
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <span className="text-lg font-semibold text-white">IA</span>
@@ -86,7 +90,7 @@ const Chat = () => {
                     {message.rol}
                   </span>
                 </div>
-                <p className="text-sm font-normal text-wrap py-2.5 text-white">
+                <p className="text-sm font-normal break-words text-wrap py-2.5 text-white">
                   {message.mensaje}
                 </p>
               </div>
@@ -94,13 +98,15 @@ const Chat = () => {
           ))}
         </div>
 
+      </div>
         {/* message */}
         <form className="relative">
           <textarea
             name="chat"
             id="chat"
+            value={textValue}
             rows={3}
-            maxLength={100}
+            maxLength={50}
             onChange={changeColorButton}
             onKeyDown={enterMsg}
             placeholder="Envia un mensaje..."
@@ -108,6 +114,8 @@ const Chat = () => {
           ></textarea>
 
           <button
+          type="button"
+          onClick={sendButton}
             className={`absolute border-gray-500 right-4 bottom-4 rounded-lg border ${
               colorConfButton ? " bg-green-600 " : "  bg-gray-600 "
             } text-white py-2 px-4 rounded  focus:outline-none focus:shadow-outline`}
@@ -123,7 +131,6 @@ const Chat = () => {
             </svg>
           </button>
         </form>
-      </div>
     </div>
   );
 };
