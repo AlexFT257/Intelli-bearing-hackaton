@@ -4,6 +4,10 @@ import CardTable from "@/components/Cards/CardTable";
 import CardAnalysis from "@/components/Cards/CardAnalysis";
 import CardState from "@/components/Cards/CardState";
 import Chat from "@/components/Chat";
+import CardBearing from "@/components/Cards/Cardbearing";
+import CardRUL from "@/components/Cards/CardRUL";
+import  {BearingRenderer}  from "@/components/BearingRenderer";
+import CardControls from "@/components/Cards/CardControls";
 
 export default function Home() {
   return (
@@ -17,9 +21,12 @@ export default function Home() {
         </div>
         {/* abajo */}
         <div className="flex flex-row gap-4">
-          <CardAnalysis/>
           {/* <CardAnalysis/> */}
-          <CardState/>
+          {/* <CardAnalysis/> */}
+          {/* <CardState/> */}
+          <CardBearing/>
+          <CardControls/>
+          <CardRUL/>
         </div>
       </div>
       {/* derecha /chat */}

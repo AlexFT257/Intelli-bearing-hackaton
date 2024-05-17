@@ -1,14 +1,19 @@
 import { Canvas } from "@react-three/fiber";
+import { Bearing } from "./Bearingv2";
+import { OrbitControls } from "@react-three/drei";
 
+export function BearingRenderer() {
 
-
-export default function BearingRenderer({ bearing }) {
+  
+  const canvasSize = 260;
   return (
-    <div>
-        <Canvas>
-
-        </Canvas>
+    <div style={{ with: canvasSize, height: canvasSize }}>
+      <Canvas>
+        <ambientLight intensity={1} />
+        <directionalLight position={[2, 3, 2]} intensity={1} />
+        <OrbitControls autoRotate autoRotateSpeed={4} />
+        <Bearing />
+      </Canvas>
     </div>
-    
   );
 }

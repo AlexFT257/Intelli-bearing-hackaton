@@ -5,6 +5,7 @@ import CardTable from "@/components/Cards/CardTable";
 import CardAnalysis from "@/components/Cards/CardAnalysis";
 import CardState from "@/components/Cards/CardState";
 import Chat from "@/components/Chat";
+import CardStats from "@/components/Cards/CardStats";
 
 export default function Home() {
   return (
@@ -12,9 +13,10 @@ export default function Home() {
       {/* izquierda */}
       <div className="flex flex-col gap-4 w-full mx-2 my-4">
         {/* arriba */}
-        <div className="flex w-full">
+        <div className="flex w-full gap-4">
           {/* carta */}
           <CardTable/>
+          {/* <CardStats/> */}
         </div>
         {/* abajo */}
         <div className="flex flex-row gap-4">

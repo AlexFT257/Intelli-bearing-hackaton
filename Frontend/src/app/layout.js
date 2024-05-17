@@ -1,6 +1,6 @@
 // import { Inter } from "next/font/google";
 "use client";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import Image from "next/image";
 import "./globals.css";
 
@@ -11,11 +11,15 @@ export const TwinsContext = createContext(null);
 export const ChatContext = createContext(null);
 
 export default function RootLayout({ children }) {
+  const [bearing,setBearing] = useState(null)
+  const [twins,setTwins] = useState(null)
+  const [chat,setChat] = useState(null)
+
   return (
     <html lang="en">
-      <BearingContext.Provider>
-        <TwinsContext.Provider>
-          <ChatContext.Provider>
+      <BearingContext.Provider value={{bearing,setBearing}}>
+        <TwinsContext.Provider value={{twins,setTwins}}>
+          <ChatContext.Provider value={{chat,setChat}}>
             <body className="h-dvh overflow-hidden ">
               <main className="flex flex-col m-2 h-full">
                 <header className="w-full flex-col m-2 h-full">
