@@ -1,24 +1,27 @@
-import { BearingContext } from "@/app/layout";
 import ApexCharts from "apexcharts";
-import { useRef,useEffect, useContext } from "react";
+import { useRef,useEffect } from "react";
 
-const CardAnalysis = () => {
-    const {bearing} = useContext(BearingContext)
+const CardRUL = () => {
     const chartRef = useRef(null)
 
-    const generateRandomArray = (length) => {
-        const randomArray = [];
+    const generateExponentialSeries = (length, base) => {
+        const series = [];
         for (let i = 0; i < length; i++) {
-          const randomNumber = Math.random() * 12 - 6; // Genera números entre -6 y 6
-          randomArray.push(randomNumber);
+          const value = Math.pow(base, i); // Genera el valor exponencial
+          series.push(value);
         }
-        return randomArray;
+        // Normaliza los valores para que estén en el rango de 0 a 1
+        const max = Math.max(...series);
+        const min = Math.min(...series);
+        return series.map((value) => (value - min) / (max - min));
       };
-    
-      const fakeX = generateRandomArray(20);
-      const fakeY = generateRandomArray(20);
-
-    //   TODO: cambiar cuando tenga el backend
+      
+      // Ejemplo de uso
+      const seriesLength = 10;
+      const base = 2; // Puedes ajustar este valor según la tasa de crecimiento deseada
+      const exponentialSeries = generateExponentialSeries(seriesLength, base);
+    //   console.log(exponentialSeries);
+      
   useEffect(() => {
     // Configuración del gráfico
     const options = {
@@ -30,11 +33,7 @@ const CardAnalysis = () => {
       series: [
         {
           name: "Amplitud eje X",
-          data: fakeX
-        },
-        {
-          name: "Amplitud eje Y",
-          data: fakeY
+          data: exponentialSeries
         },
       ],
       yaxis:{
@@ -57,6 +56,7 @@ const CardAnalysis = () => {
       // Limpiar el gráfico al desmontar el componente
       chart.destroy();
     };
+    // TODO: agregar la dependencia de la llamada al back
   }, []);
 
   
@@ -66,9 +66,9 @@ const CardAnalysis = () => {
     <div className=" w-3/5 bg-gray-800 rounded-lg flex flex-col gap-2  p-4 h-fit ">
       <div>
         <h1 className=" text-white text-3xl font-bold tracking-tight">
-          Analisis de Vibraciones
+          Analisis RUL
         </h1>
-        <span className="text-gray-400">Grafico de las ultimas 24 horas</span>
+        <span className="text-gray-400">Grafico de la prediccion RUL</span>
       </div>
 
       <div ref={chartRef} />
@@ -76,4 +76,4 @@ const CardAnalysis = () => {
   );
 };
 
-export default CardAnalysis;
+export default CardRUL;

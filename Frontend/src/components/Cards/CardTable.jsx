@@ -38,6 +38,14 @@ const fakedata = [
     installDate: "12/12/1212",
     lifeExpectancy: 4,
   },
+  
+  {
+    id: 4,
+    name: "rod5",
+    lastState: "Bueno",
+    installDate: "12/12/1212",
+    lifeExpectancy: 4,
+  },
 ];
 
 const CardTable = () => {
@@ -76,8 +84,8 @@ const CardTable = () => {
         <span className="text-gray-400">Selecciona un rodamiento</span>
       </div>
 
-      <div class=" overflow-x-auto rounded-lg">
-        <table class="w-full text-sm text-left h-1/2 text-gray-400">
+      <div class=" max-h-[305px] overflow-y-scroll rounded-lg ">
+        <table class="w-full  text-sm text-left text-gray-400">
           <thead class="text-xs  uppercase  bg-gray-700 text-gray-400">
             <tr>
               <th scope="col" class="px-6 py-3">
@@ -97,7 +105,7 @@ const CardTable = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="overflow-scroll">
+          <tbody className="h-[264px] overflow-y-scroll">
             {/* reemplazar por list */}
             {fakedata.map((item) => (
               <TableRow key={item.id} data={item} />
