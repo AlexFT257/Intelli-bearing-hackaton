@@ -1,11 +1,11 @@
 "use client"
-"use client"
+import dynamic from 'next/dynamic';
 import Image from "next/image";
 import CardTable from "@/components/Cards/CardTable";
 import CardAnalysis from "@/components/Cards/CardAnalysis";
 import CardState from "@/components/Cards/CardState";
 import Chat from "@/components/Chat";
-import CardStats from "@/components/Cards/CardStats";
+// import CardStats from "@/components/Cards/CardStats";
 
 export default function Home() {
   return (

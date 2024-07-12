@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { BearingContext } from "@/app/layout";
 
 const fakedata = [
   {
@@ -7,6 +8,9 @@ const fakedata = [
     lastState: "Bueno",
     installDate: "12/12/1212",
     lifeExpectancy: 4,
+    rpm: 12000,
+    temp: 30,
+    torque: 0.5
   },
   {
     id: 1,
@@ -14,6 +18,9 @@ const fakedata = [
     lastState: "Bueno",
     installDate: "12/12/1212",
     lifeExpectancy: 4,
+    rpm: 1200,
+    temp: 28,
+    torque: 3.5
   },
 
   {
@@ -22,6 +29,9 @@ const fakedata = [
     lastState: "Bueno",
     installDate: "12/12/1212",
     lifeExpectancy: 4,
+    rpm: 10000,
+    temp: 48,
+    torque: 1
   },
   {
     id: 3,
@@ -29,6 +39,9 @@ const fakedata = [
     lastState: "Bueno",
     installDate: "12/12/1212",
     lifeExpectancy: 4,
+    rpm: 7000,
+    temp: 32,
+    torque: 2
   },
 
   {
@@ -37,20 +50,33 @@ const fakedata = [
     lastState: "Bueno",
     installDate: "12/12/1212",
     lifeExpectancy: 4,
+    rpm: 8290,
+    temp: 22,
+    torque: 1.2
   },
   
   {
-    id: 4,
+    id: 5,
     name: "rod5",
     lastState: "Bueno",
     installDate: "12/12/1212",
     lifeExpectancy: 4,
+    rpm: 9460,
+    temp: 39,
+    torque: 1.4
   },
 ];
 
 const CardTable = () => {
-    const [list, setList] = useState([])
+  const {bearing, setBearing} = useContext(BearingContext)
 
+
+  const onBearingChange = (bearing) =>{
+    console.log()
+    console.log("onBearingChange",bearing)
+    setBearing(bearing)
+    
+  }
 
 
   const TableRow = ({ data }) => (
@@ -68,6 +94,7 @@ const CardTable = () => {
         <a
           href="#"
           className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+          onClick={()=>onBearingChange(data)}
         >
           Ver
         </a>
@@ -84,23 +111,23 @@ const CardTable = () => {
         <span className="text-gray-400">Selecciona un rodamiento</span>
       </div>
 
-      <div class=" max-h-[305px] overflow-y-scroll rounded-lg ">
-        <table class="w-full  text-sm text-left text-gray-400">
-          <thead class="text-xs  uppercase  bg-gray-700 text-gray-400">
+      <div className=" max-h-[305px] overflow-y-scroll rounded-lg ">
+        <table className="w-full  text-sm text-left text-gray-400">
+          <thead className="text-xs  uppercase  bg-gray-700 text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Rodamiento
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Estado
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Fecha de instalacion
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Estimacion de vida util
               </th>
-              <th scope="col" class="px-6 py-3">
+              <th scope="col" className="px-6 py-3">
                 Accion
               </th>
             </tr>
@@ -108,6 +135,7 @@ const CardTable = () => {
           <tbody className="h-[264px] overflow-y-scroll">
             {/* reemplazar por list */}
             {fakedata.map((item) => (
+              
               <TableRow key={item.id} data={item} />
             ))}
           </tbody>

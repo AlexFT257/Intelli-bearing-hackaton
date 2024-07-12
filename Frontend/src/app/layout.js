@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <BearingContext.Provider value={{bearing,setBearing}}>
         <TwinsContext.Provider value={{twins,setTwins}}>
           <ChatContext.Provider value={{chat,setChat}}>
-            <body className="h-dvh overflow-hidden ">
+            <body className="  ">
               <main className="flex flex-col m-2 h-full">
                 <header className="w-full flex-col m-2 h-full">
                   <div className="flex flex-row gap-4  align-middle items-center ">
@@ -29,6 +29,7 @@ export default function RootLayout({ children }) {
                       className="h-12"
                       width={48}
                       height={48}
+                      alt="Logo"
                     />
                     <h1 className="scroll-m-20 text-white text-4xl font-bold tracking-tight">
                       Intelli-Bearing

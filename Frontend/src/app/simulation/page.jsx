@@ -2,11 +2,11 @@
 import Image from "next/image";
 import CardTable from "@/components/Cards/CardTable";
 import CardAnalysis from "@/components/Cards/CardAnalysis";
-import CardState from "@/components/Cards/CardState";
+// import CardState from "@/components/Cards/CardState";
 import Chat from "@/components/Chat";
 import CardBearing from "@/components/Cards/Cardbearing";
 import CardRUL from "@/components/Cards/CardRUL";
-import  {BearingRenderer}  from "@/components/BearingRenderer";
+// import { BearingRenderer } from "@/components/BearingRenderer";
 import CardControls from "@/components/Cards/CardControls";
 
 export default function Home() {
@@ -17,21 +17,27 @@ export default function Home() {
         {/* arriba */}
         <div className="flex w-full">
           {/* carta */}
-          <CardTable/>
+          <CardTable />
         </div>
         {/* abajo */}
-        <div className="flex flex-row gap-4">
+        <div className="grid grid-cols-2 grid-rows-2 w-full lg:flex lg:flex-row gap-4">
           {/* <CardAnalysis/> */}
           {/* <CardAnalysis/> */}
           {/* <CardState/> */}
-          <CardBearing/>
-          <CardControls/>
-          <CardRUL/>
+          <div className="col-span-1 row-span-1 lg:block w-full lg:w-1/5">
+          <CardBearing />
+          </div>
+          <div className="col-span-1 row-span-1 lg:block w-full lg:w-1/5">
+          <CardControls />
+          </div>
+          <div className="col-span-2 row-span-2 lg:block w-full lg:w-3/5">
+          <CardRUL />
+          </div>
         </div>
       </div>
       {/* derecha /chat */}
       <div className="flex w-2/5  h-full mx-2 my-4">
-        <Chat/>
+        <Chat />
       </div>
     </div>
   );

@@ -49,12 +49,12 @@ const Chat = () => {
   };
 
   return (
-    <div className=" w-full h-5/6 bg-gray-800 rounded-lg flex flex-col gap-2  p-4 ">
+    <div className=" w-full h-fit bg-gray-800 rounded-lg flex flex-col gap-2  p-4 ">
       <div>
         <h1 className=" text-white text-3xl font-bold tracking-tight">Chat</h1>
       </div>
 
-      <div className="flex overflow-scroll h-[700px] justify-between flex-col gap-4">
+      <div className="flex overflow-scroll h-[625px] justify-between flex-col gap-4">
         {/* chat container */}
         <div>
           {/* ia */}
