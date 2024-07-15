@@ -1,3 +1,4 @@
+"use client"
 import { BearingRenderer } from "../BearingRenderer";
 
 const CardBearing = () => {

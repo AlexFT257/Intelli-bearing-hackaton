@@ -1,4 +1,4 @@
-
+"use client"
 import { BearingContext, TwinsContext } from "@/app/layout";
 import { useContext, useEffect, useState } from "react";
 

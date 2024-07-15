@@ -1,3 +1,5 @@
+"use client"
+
 import { BearingContext } from "@/app/layout";
 import ApexCharts from "apexcharts";
 import { useRef, useEffect, useContext } from "react";
@@ -65,7 +67,7 @@ const CardState = () => {
 
 
   return (
-    <div className=" w-2/5 bg-gray-800 rounded-lg flex flex-col gap-2  p-4 h-[365px] ">
+    <div className="  bg-gray-800 rounded-lg flex flex-col gap-2  p-4 h-[365px] ">
       <div>
         <h1 className=" text-white text-3xl font-bold tracking-tight">
           Estado

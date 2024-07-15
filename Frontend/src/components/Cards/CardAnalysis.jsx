@@ -1,11 +1,13 @@
+"use client"
 import { BearingContext } from "@/app/layout";
 import ApexCharts from "apexcharts";
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useEffect, useContext, useState } from "react";
 import dynamic from 'next/dynamic';
 
 // const ApexCharts = dynamic(() => import('apexcharts'), { ssr: false });
 
-const CardAnalysis = () => {
+function CardAnalysis()  {
+  const [isClient, setIsClient] = useState(false)
   const { bearing } = useContext(BearingContext)
   const chartRef = useRef(null)
 
@@ -18,10 +20,13 @@ const CardAnalysis = () => {
     return randomArray;
   };
 
-  
+  useEffect(()=>{
+    setIsClient(true)
+  },[])
+
   //   TODO: cambiar cuando tenga el backend
-  useEffect(() => {
-    if (typeof window !== undefined) {
+  useEffect(()=>  {
+    if (isClient && chartRef.current && typeof window !== "undefined") {
       let fakeX = generateRandomArray(20);
       let fakeY = generateRandomArray(20);
       // Configuración del gráfico
@@ -54,21 +59,23 @@ const CardAnalysis = () => {
       };
 
       // Crear el gráfico
-      const chart = new ApexCharts(chartRef?.current, options);
-      chart?.render();
+      const chart = new ApexCharts(chartRef.current, options);
+      chart.render();
 
       return () => {
         // Limpiar el gráfico al desmontar el componente
         chart.destroy();
       };
     }
-  }, [bearing]);
+  }, [bearing,isClient]);
 
-
+  if(!isClient){
+    return null; // placeholder for loading
+  }
 
 
   return (
-    <div className=" w-3/5 bg-gray-800 rounded-lg flex flex-col gap-2  p-4 h-fit ">
+    <div className=" bg-gray-800 rounded-lg flex flex-col gap-2  p-4 h-fit ">
       <div>
         <h1 className=" text-white text-3xl font-bold tracking-tight">
           Analisis de Vibraciones

@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <BearingContext.Provider value={{bearing,setBearing}}>
         <TwinsContext.Provider value={{twins,setTwins}}>
           <ChatContext.Provider value={{chat,setChat}}>
-            <body className="  ">
+            <body className=" ">
               <main className="flex flex-col m-2 h-full">
                 <header className="w-full flex-col m-2 h-full">
                   <div className="flex flex-row gap-4  align-middle items-center ">
